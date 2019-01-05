@@ -9,15 +9,19 @@ class Photo {
 
   saveToStorage(array) {
     localStorage.setItem('photos', JSON.stringify(array));
-    // var arrayJSON = JSON.stringify(array);
-    // localStorage.setItem('array', arrayJSON);
   }
 
-  deleteFromStorage(){
-
+ deleteFromStorage(imagesArray) {
+    localStorage.setItem('imagesArray', JSON.stringify(imagesArray));
   }
 
-  updatePhoto() {
-
+ updatePhoto(title, caption, imagesArray) {
+    this.title = title;
+    this.body = body;
+    this.saveToStorage(cardArray);
+  }
+  
+    updateFavorite() {
+    this.favorite = !this.favorite;
   }
 }
