@@ -1,42 +1,49 @@
-var photosArray = [];
 var addToAlbumButton = document.getElementById('add-to-album');
+var showButton = document.querySelector('.show-button');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
-var imagesArr = JSON.parse(localStorage.getItem('photos')) || [];
+var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', createElement);
-// window.addEventListener('load', persistCardsOnPageLoad);
-
 window.addEventListener('load', createCards);
-// addToAlbumButton.addEventListener('click', createElement);
+
+cardSection.addEventListener('click', function (event) {
+  if (event.target.classList.contains('delete-button')) {
+    deletePhoto(event);
+  } else if (event.target.classList.contains('favorite-button')) {
+    favoriteCard(event);
+  } 
+});
+cardSection.addEventListener('change', function(event) { 
+  updatePhoto(event);
+});
 
 function saveNewCard(event) {
 event.preventDefault();
 var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
-console.log(captionInput)
 var photoObj = new Photo(titleInput, captionInput, reader.result);
-  imagesArr.push(photoObj);
-  // photosArray.push(photoObj);
-  photoObj.saveToStorage(imagesArr);
-  // photoObj.saveToStorage(photosArray);
+  imagesArray.push(photoObj);
+  // imagesArray.push(photoObj);
+  photoObj.saveToStorage(imagesArray);
+  // photoObj.saveToStorage(imagesArray);
   createCards();
+  showRecentCards();
 }
 
 function createCards() {
   var array = JSON.parse(localStorage.getItem('photos'));
-  array.forEach(function(photoObj, i) {
-    console.log(photoObj) 
+  array.forEach(function(photoObj, i) { 
     var card =
   `<section class="photo-card" data-id=${photoObj.id}>
-  <p class = "title">${photoObj.title}</p>
+  <p contenteditable = true class = "title">${photoObj.title}</p>
   <label class="photo-label" for="change-photo${i}">
           <img class="photo" src="${photoObj.file}" alt="user uploaded photo">
         </label>
         <input class="choose-input photoObj-photo" type="file" accept="image/*" name="change-photo" id="change-photo${i}">
-        <p class="text caption">${photoObj.caption}</p>
-        <section class="photoObj-footer">
+        <p contenteditable = true = class = "text caption">${photoObj.caption}</p>
+        <section class="card-footer">
           <button class="icon-buttons delete-button"></button>
           <button class="icon-buttons favorite-button favorite-${photoObj.favorite}"></button>
         </section>
@@ -45,11 +52,20 @@ function createCards() {
 });
 }
 
-// code below is from Travis, instructor
+function deletePhoto(photoId) {
+  var photo = imagesArray.find(function(photo) {
+    return photo.id === photoId
+  });
+  var index = imagesArray.indexOf(photo);
+  imagesArray.splice(index, 1);
+  photo.deleteFromStorage(imagesArray);
+  var deleteCard = document.getElementById(photoId.toString());
+  deleteCard.closest('.photo-card').remove();
+}
 
 function appendPhotos() {
-  console.log(imagesArr)
-  imagesArr.forEach(function (photo) {
+  console.log(imagesArray)
+  imagesArray.forEach(function (photo) {
     cardSection.innerHTML += `<img src=${photo.file} />`
   })
 }
@@ -67,8 +83,52 @@ function addPhoto(e) {
   // console.log(e.target.result);
   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
   cardSection.innerHTML += `<img src=${e.target.result} />`;
-  imagesArr.push(newPhoto)
-  newPhoto.saveToStorage(imagesArr)
-  // add persistCardsOnPageLoad invoking here
+  imagesArray.push(newPhoto)
+  newPhoto.saveToStorage(imagesArray)
 }
+
+function removeAllCards() {
+  cardSection.innerHTML = '';
+}
+
+function showRecentCards() {
+  removeAllCards();
+  if (imagesArray.length <= 10) {
+    createCards(imagesArray);
+    disableButton(showButton);
+  } else {
+    enableButton(showButton);
+    var shownArray = imagesArray.slice(imagesArray.length - 10, imagesArray.length); 
+    createCards(shownArray);
+    showButton.innerText = 'Show More...';
+  }
+}
+
+function disableButton(button) {
+  button.disabled = true;
+}
+
+function enableButton(button) {
+  button.disabled = false;
+}
+
+function findIndexNumber(objId) {
+  return imagesArray.findIndex(function(photo) {
+  return photo.id === parseInt(objId)
+  });
+}
+
+function favoriteCard() {
+  var index = findIndexNumber(event.target.parentElement.parentElement.dataset.id);
+  imagesArray[index].updateFavorite();
+  imagesArray[index].saveToStorage(imagesArray);
+  favoritesCount();
+  if (imagesArray[index].favorite) {
+    event.target.classList.add('favorite-true');
+  } else {
+    event.target.classList.remove('favorite-true');
+  }
+}
+
+
 

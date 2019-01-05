@@ -145,9 +145,9 @@ input {
   text-align: center;
 }
 
-/*.hide-placeholder {
+.hide-placeholder {
   display: none;
-}*/
+}
 
 .photo-card {
   background-color: white;
@@ -175,7 +175,7 @@ p {
 
 .title {
   height: 23px;
-  overflow: scroll;
+  /*overflow: scroll;*/
   word-break: break-word;
 }
 
@@ -226,7 +226,6 @@ p {
 .delete-button {
   background-image: url('assets/delete.svg');
   position: absolute;
-  top: 8px;
   left: 8px;
 }
 
@@ -234,7 +233,6 @@ p {
   background-image: url('assets/favorite.svg');
   position: absolute;
   right: 10px;
-  top: 8px;
 }
 
 .show-button {
