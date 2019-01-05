@@ -7,20 +7,10 @@ var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', createElement);
 window.addEventListener('load', createCards);
+cardSection.addEventListener('click', deletePhoto);
 
-cardSection.addEventListener('click', function (event) {
-  if (event.target.classList.contains('delete-button')) {
-    deletePhoto(event);
-  } else if (event.target.classList.contains('favorite-button')) {
-    favoriteCard(event);
-  } 
-});
-cardSection.addEventListener('change', function(event) { 
-  updatePhoto(event);
-});
-
-function saveNewCard(event) {
-event.preventDefault();
+function saveNewCard(e) {
+e.preventDefault();
 var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
 var photoObj = new Photo(titleInput, captionInput, reader.result);
@@ -53,6 +43,7 @@ function createCards() {
 }
 
 function deletePhoto(photoId) {
+  saveNewCard();
   var photo = imagesArray.find(function(photo) {
     return photo.id === photoId
   });
