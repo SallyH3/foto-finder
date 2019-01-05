@@ -18,7 +18,8 @@ class Photo {
 
  updatePhoto(title, caption, imagesArray) {
     this.title = title;
-    this.body = body;
+    this.caption = caption;
+    console.log(imagesArray)
     this.saveToStorage(imagesArray);
   }
 }

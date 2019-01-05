@@ -86,16 +86,23 @@ function addPhoto(e) {
 }
 
 function saveOnReturn(e) {
+  var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
+  var card = imagesArray.find(function(card, index) {
+    return cardId === card.id
+  });
+  var photoObj = new Photo(card.title, card.caption, reader.result);
+  console.log(card);
+  var index = imagesArray.indexOf(card);
+  imagesArray.splice(index, 1)
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-  var cardId = parseInt(e.target.closest('.photo-card').getAttribute('id'));
-  console.log(cardId);
   if(e.keyCode === 13) {
-    imagesArray.forEach(function (card) {
-      if(card.id === cardId) {
-        photo.updatePhoto(cardTitle, cardCaption, imagesArray);
-      }
-    });
+    // imagesArray.forEach(function (card) {
+      // if(card.id === cardId) {
+    photoObj.updatePhoto(cardTitle, cardCaption, imagesArray);
+        // console.log(cardTitle)
+      // }
+    // });
   }
 }
 
