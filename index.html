@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Foto Finder</title>
+  <link rel="stylesheet" type="text/css" href="normalize.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:600,800" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <section class="dark-background">
+    <header>
+        <h1>FOTO<img class="logo" src="assets/foto-finder-logo.svg" alt="photo finder logo">FINDER</h1>
+        <div class="photo-search">
+          <input class="search-input" type="text" name="search-input" id="search-field" placeholder="Search">
+          <button class="search-button"><i class="fas fa-search"></i></button>
+      </header>
+        </div>
+     <form>
+        <label for="title">Title</label>
+        <input class="text-inputs" type="text" name="title" id="title">
+        <label for="caption">Caption</label>
+        <input class="text-inputs" type="text" name="caption" id="caption">
+        <label class="form-buttons choose-label" for="photo-input">Choose File</label>
+        <input class="choose-input" type="file" accept="image/*" id="photo-input" name="input">
+        <article class="bottom-buttons">
+          <button class="form-buttons" id="view-favorites">View <span id="favorite-counter">0</span> Favorites</button>
+          <button class="form-buttons" id="add-to-album">Add to Album</button>
+        </article>
+      </form>
+  </section>
+    <section class="card-section"></section>
+    <p class="card-placeholder">Add photos to your album here...</p>
+    <button class="show-button" disabled>Show More...</button>
+    <script src="photo.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif; 
+}
+
+body {
+  background-color: #C2B2B4;
+  margin: 0;
+  padding: 0;
+}
+
+.dark-background {
+  background-color: #3E2A35;
+  display: grid;
+  margin: 0;
+  padding: 30px 30px 0 30px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  color: white;
+  font-size: 40px;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.logo {
+  margin: 0 5px 0 5px; 
+  width: 45px;
+}
+
+.photo-search {
+  align-items: top;
+  display: flex;
+  height: 40px;
+  justify-content: flex-end;
+}
+
+.search-input {
+  border-radius: 5px 0 0 5px;
+  border: 2px solid #C2B2B4;
+  font-size: 15px;
+  padding-left: 10px;
+  width: 350px;
+}
+
+.search-button {
+  background-color: #C2B2B4;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  width: 40px;
+}
+
+.fa-search {
+    color: #FFF;
+    font-size: 22px;
+  }
+
+form {
+  color: #FFF;
+  margin: 10px auto 0 auto;
+  padding: 20px;
+  width: 60%;
+}
+
+.text-inputs {
+  line-height: 1.3;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.form-buttons {
+  background-color: #5B4447;
+  border: none;
+  color: white;
+  margin: 20px 0;
+  padding: 15px 15px;
+  width: 40%;
+}
+
+.form-buttons:disabled {
+  background-color: lightgrey;
+}
+
+.search-button:hover:enabled,
+.form-buttons:hover:enabled {
+  background-color: #938284;
+}
+
+.choose-label {
+  background-color: #5B4447;
+  border: none;
+  color: white;
+  display: block;
+  margin-top: 40px;
+  margin: 40px 0 20px 0;
+  padding: 15px 15px;
+  text-align: center;
+  width: 100%;
+}
+
+.choose-label:hover {
+  background-color: #938284;
+}
+
+.choose-input {
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 0.1px;
+  z-index: -1;
+}
+
+.bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+input {
+  color: #3E2A35;
+  display: block;
+  font-size: 24px;
+  padding: 5px;
+  width: 100%;
+}
+
+.card-section {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 20px;
+}
+
+.card-placeholder {
+  background-color: #C2B2B4;
+  font-size: 28px;
+  height: 200px;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+/*.hide-placeholder {
+  display: none;
+}*/
+
+.photo-card {
+  background-color: white;
+  border: 2px solid #938284;
+  height: 400px;
+  margin: 10px auto;
+  position: relative;
+  width: 280px;
+}
+
+/*.hidden {
+  display: none;
+}*/
+
+.photo-card {
+  background-color: white;
+}
+
+p {
+  color: #3E2A35;
+  font-size: 18px;
+  margin: 10px;
+  line-height: 1.3;
+}
+
+.title {
+  height: 23px;
+  overflow: scroll;
+  word-break: break-word;
+}
+
+.photo-label {
+  margin: 0;
+  padding: 0;
+}
+
+.photo {
+  height: 180px;
+  object-fit: cover;
+  width: 276px;
+}
+
+.photo:hover {
+  opacity: 0.5;
+}
+
+.caption {
+  height: 95px;
+  hyphens: auto;
+  overflow: scroll;
+  text-align: justify;
+  word-break: break-word;
+}
+
+.card-footer {
+  background-color: #5B4447;
+  bottom: 0;
+  height: 50px;
+  padding: 10px;
+  position: absolute;
+  width: 276px;
+}
+
+/* BUTTONS ON MAIN */
+
+.icon-buttons {
+  background-color: #5B4447;
+  background-repeat: no-repeat;
+  border: none;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  width: 40px;
+}
+
+.delete-button {
+  background-image: url('assets/delete.svg');
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.favorite-button {
+  background-image: url('assets/favorite.svg');
+  position: absolute;
+  right: 10px;
+  top: 8px;
+}
+
+.show-button {
+  background-color: #5B4447;
+  border: none;
+  color: white;
+  display: block;
+  margin: 20px auto;
+  padding: 8px;
+  text-align: center;
+}
+
+.show-button:hover:enabled {
+  background-color: #938284;
+}
+
+.show-button:disabled {
+  background-color: lightgrey;
+}
+
+/* BUTTONS ON PHOTO CARDS*/
+
+
+.favorite-true {
+  background-image: url('favorite-active.svg');
+}
+
+.delete-button:hover {
+  background-image: url('delete-active.svg');
+}
+
+.favorite-button:hover {
+  background-image: url('favorite-active.svg');
+}
+
