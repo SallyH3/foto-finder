@@ -10,7 +10,7 @@ class Photo {
   saveToStorage(array) {
     localStorage.setItem('photos', JSON.stringify(array));
   }
-
+  
  deleteFromStorage(imagesArray) {
     localStorage.setItem('imagesArray', JSON.stringify(imagesArray));
   }
@@ -18,7 +18,7 @@ class Photo {
  updatePhoto(title, caption, imagesArray) {
     this.title = title;
     this.body = body;
-    this.saveToStorage(cardArray);
+    this.saveToStorage(imagesArray);
   }
   
     updateFavorite() {
