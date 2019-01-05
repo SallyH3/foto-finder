@@ -1,5 +1,6 @@
 var addToAlbumButton = document.getElementById('add-to-album');
 var showButton = document.querySelector('.show-button');
+var searchInput = document.querySelector('search-input');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
 var viewFavoritesButton = document.getElementById('js-view-favorites');
@@ -7,6 +8,7 @@ var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', createElement);
+// searchInput.addEventListener('input', liveSearchFilter);
 window.addEventListener('load', createCards);
 
 cardSection.addEventListener('keyup', saveOnReturn);
@@ -84,6 +86,17 @@ function addPhoto(e) {
   imagesArray.push(newPhoto)
   newPhoto.saveToStorage(imagesArray)
 }
+
+// function liveSearchFilter() {
+//   removeAllCards();
+//   var searchCurrentText = searchInput.value;
+//   var filteredCards = imagesArray.filter(function (photo) {
+//     return photo.title.includes(searchCurrentText) || photo.caption.includes(searchCurrentText)
+//   });
+//   filteredCards.forEach(function(photo) {
+//     createCards(photoObj);
+//   });
+// }
 
 function saveOnReturn(e) {
   var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
