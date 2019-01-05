@@ -211,7 +211,7 @@ p {
   width: 276px;
 }
 
-/* BUTTONS ON MAIN */
+/* Buttons in main area */
 
 .icon-buttons {
   background-color: #5B4447;
@@ -253,9 +253,9 @@ p {
   background-color: lightgrey;
 }
 
-/* BUTTONS ON PHOTO CARDS*/
+/* Button on photo cards*/
 
-
+/*
 .favorite-true {
   background-image: url('favorite-active.svg');
 }
@@ -266,5 +266,5 @@ p {
 
 .favorite-button:hover {
   background-image: url('favorite-active.svg');
-}
+}*/
 

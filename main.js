@@ -2,25 +2,23 @@ var addToAlbumButton = document.getElementById('add-to-album');
 var showButton = document.querySelector('.show-button');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
+var faveCounter = 0;
+var viewFavoritesButton = document.getElementById('js-view-favorites');
 var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', createElement);
 window.addEventListener('load', createCards);
 
-cardSection.addEventListener('click', function (event) {
+cardSection.addEventListener('keyup', saveOnReturn);
+cardSection.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete-button')) {
     deletePhoto(event);
-  } else if (event.target.classList.contains('favorite-button')) {
-    favoriteCard(event);
   } 
 });
-cardSection.addEventListener('change', function(event) { 
-  updatePhoto(event);
-});
 
-function saveNewCard(event) {
-event.preventDefault();
+
+function saveNewCard() {
 var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
 var photoObj = new Photo(titleInput, captionInput, reader.result);
@@ -29,12 +27,11 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
   photoObj.saveToStorage(imagesArray);
   // photoObj.saveToStorage(imagesArray);
   createCards();
-  showRecentCards();
 }
 
 function createCards() {
   var array = JSON.parse(localStorage.getItem('photos'));
-  array.forEach(function(photoObj, i) { 
+  imagesArray.forEach(function(photoObj, i) { 
     var card =
   `<section class="photo-card" data-id=${photoObj.id}>
   <p contenteditable = true class = "title">${photoObj.title}</p>
@@ -48,18 +45,18 @@ function createCards() {
           <button class="icon-buttons favorite-button favorite-${photoObj.favorite}"></button>
         </section>
   </section>`
-  cardSection.innerHTML = card + cardSection.innerHTML;
+  cardSection.insertAdjacentHTML('afterbegin', card);
 });
 }
 
-function deletePhoto(photoId) {
-  var photo = imagesArray.find(function(photo) {
-    return photo.id === photoId
+function deletePhoto(cardId) {
+  var card = imagesArray.find(function(card) {
+    return card.id === cardId
   });
-  var index = imagesArray.indexOf(photo);
+  var index = imagesArray.indexOf(card);
   imagesArray.splice(index, 1);
-  photo.deleteFromStorage(imagesArray);
-  var deleteCard = document.getElementById(photoId.toString());
+  card.deleteFromStorage(imagesArray);
+  var deleteCard = document.getElementById(cardId.toString());
   deleteCard.closest('.photo-card').remove();
 }
 
@@ -87,46 +84,16 @@ function addPhoto(e) {
   newPhoto.saveToStorage(imagesArray)
 }
 
-function removeAllCards() {
-  cardSection.innerHTML = '';
-}
-
-function showRecentCards() {
-  removeAllCards();
-  if (imagesArray.length <= 10) {
-    createCards(imagesArray);
-    disableButton(showButton);
-  } else {
-    enableButton(showButton);
-    var shownArray = imagesArray.slice(imagesArray.length - 10, imagesArray.length); 
-    createCards(shownArray);
-    showButton.innerText = 'Show More...';
-  }
-}
-
-function disableButton(button) {
-  button.disabled = true;
-}
-
-function enableButton(button) {
-  button.disabled = false;
-}
-
-function findIndexNumber(objId) {
-  return imagesArray.findIndex(function(photo) {
-  return photo.id === parseInt(objId)
-  });
-}
-
-function favoriteCard() {
-  var index = findIndexNumber(event.target.parentElement.parentElement.dataset.id);
-  imagesArray[index].updateFavorite();
-  imagesArray[index].saveToStorage(imagesArray);
-  favoritesCount();
-  if (imagesArray[index].favorite) {
-    event.target.classList.add('favorite-true');
-  } else {
-    event.target.classList.remove('favorite-true');
+function saveOnReturn(e) {
+  var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
+  var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.innerText;
+  var cardId = parseInt(e.target.closest('.photo-card').getAttribute('id'));
+  if(e.keyCode === 13) {
+    imagesArray.forEach(function (photo) {
+      if(photo.id === photoId) {
+        photo.updatePhoto(cardTitle, cardCaption, imagesArray);
+      }
+    });
   }
 }
 
