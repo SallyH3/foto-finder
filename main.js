@@ -7,10 +7,10 @@ var reader = new FileReader();
 
 addToAlbumButton.addEventListener('click', createElement);
 window.addEventListener('load', createCards);
-cardSection.addEventListener('click', deletePhoto);
+// cardSection.addEventListener('click', deletePhoto);
+// cardSection.addEventListener('keyup', saveOnReturn);
 
-function saveNewCard(e) {
-e.preventDefault();
+function saveNewCard() {
 var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
 var photoObj = new Photo(titleInput, captionInput, reader.result);
@@ -24,7 +24,7 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
 
 function createCards() {
   var array = JSON.parse(localStorage.getItem('photos'));
-  array.forEach(function(photoObj, i) { 
+  imagesArray.forEach(function(photoObj, i) { 
     var card =
   `<section class="photo-card" data-id=${photoObj.id}>
   <p contenteditable = true class = "title">${photoObj.title}</p>
@@ -34,7 +34,7 @@ function createCards() {
         <input class="choose-input photoObj-photo" type="file" accept="image/*" name="change-photo" id="change-photo${i}">
         <p contenteditable = true = class = "text caption">${photoObj.caption}</p>
         <section class="card-footer">
-          <button class="icon-buttons delete-button"></button>
+        <img class='delete-button' src='delete.svg' onclick='deletePhoto(${photoObj.id})'>
           <button class="icon-buttons favorite-button favorite-${photoObj.favorite}"></button>
         </section>
   </section>`
@@ -120,6 +120,19 @@ function favoriteCard() {
     event.target.classList.remove('favorite-true');
   }
 }
+
+// function saveOnReturn(e) {
+//   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
+//   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.innerText;
+//   var cardId = parseInt(e.target.closest('.photo-card').getAttribute('id'));
+//   if(e.keyCode === 13) {
+//     imagesArray.forEach(function (image) {
+//       if(image.id === imageId) {
+//         image.updateContent(cardTitle, cardCaption, cardArray);
+//       }
+//     });
+//   }
+// }
 
 
 

@@ -224,7 +224,7 @@ p {
 }
 
 .delete-button {
-  background-image: url('assets/delete.svg');
+  /*background-image: url('assets/delete.svg');*/
   position: absolute;
   left: 8px;
 }
