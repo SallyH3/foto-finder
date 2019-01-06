@@ -13,6 +13,7 @@ var reader = new FileReader();
 addToAlbumButton.addEventListener('click', createElement);
 // searchInput.addEventListener('input', liveSearchFilter);
 window.addEventListener('load', createCards);
+window.addEventListener('load', displayNoneOnCardSection);
 window.addEventListener('input', enableDisableAddToAlbum);
 
 cardSection.addEventListener('keyup', saveOnReturn);
@@ -73,6 +74,13 @@ function persistFavorite() {
       event.target.classList.replace(`favorite-${!photo.favorite}`, `favorite-${photo.favorite}`);
     }
   })
+}
+
+function displayNoneOnCardSection() {
+  var cardPlaceholder = document.querySelector('.card-placeholder');
+  if(input.files.length >= 1) {
+    cardPlaceholder.style.innerText = 'none';
+  }
 }
 
 function deletePhoto(target) {
