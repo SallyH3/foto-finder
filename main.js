@@ -13,6 +13,7 @@ var reader = new FileReader();
 addToAlbumButton.addEventListener('click', createElement);
 // searchInput.addEventListener('input', liveSearchFilter);
 window.addEventListener('load', createCards);
+window.addEventListener('input', enableDisableAddToAlbum);
 
 cardSection.addEventListener('keyup', saveOnReturn);
 cardSection.addEventListener('click', function(event) {
@@ -32,7 +33,13 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
   createCards();
 }
 
-
+function enableDisableAddToAlbum() {
+  var titleInput = parseInt(document.querySelector('#title'));
+  var captionInput = parseInt(document.querySelector('#caption'));
+  if((titleInput.value != '' || captionInput.value != '') && input.files.length >= 1) {
+    addToAlbumButton.disabled = false;
+  }
+}
 
 function createCards() {
   // var array = JSON.parse(localStorage.getItem('photos'));
