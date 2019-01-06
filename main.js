@@ -3,7 +3,9 @@ var showButton = document.querySelector('.show-button');
 var searchInput = document.querySelector('search-input');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
+var faveCounter = 0;
 var viewFavoritesButton = document.getElementById('js-view-favorites');
+var favoritesButton = document.querySelector('.js-favorite-counter');
 var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
 
@@ -24,9 +26,7 @@ var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
 var photoObj = new Photo(titleInput, captionInput, reader.result);
   imagesArray.push(photoObj);
-  // imagesArray.push(photoObj);
   photoObj.saveToStorage(imagesArray);
-  // photoObj.saveToStorage(imagesArray);
   createCards();
 }
 
@@ -48,7 +48,21 @@ function createCards() {
   </section>`
   cardSection.innerHTML = card + cardSection.innerHTML;
 });
+  updateFaveIcon();
 }
+
+function updateFaveIcon(photoObj) {
+  if(photoObj.favorite) {
+    console.log(photoObj)
+    faveCounter++;
+    favoritesButton.innerText = faveCounter;
+    return "assets/favorite-active.svg";
+  } else {
+    faveCounter--;
+    favoritesButton.innerText = faveCounter;
+    return "assets/favorite.svg";
+  }
+};
 
 function deletePhoto(target) {
   var cardId = target.parentElement.parentElement.dataset.id;
@@ -87,16 +101,6 @@ function addPhoto(e) {
   newPhoto.saveToStorage(imagesArray)
 }
 
-// function liveSearchFilter() {
-//   removeAllCards();
-//   var searchCurrentText = searchInput.value;
-//   var filteredCards = imagesArray.filter(function (photo) {
-//     return photo.title.includes(searchCurrentText) || photo.caption.includes(searchCurrentText)
-//   });
-//   filteredCards.forEach(function(photo) {
-//     createCards(photoObj);
-//   });
-// }
 
 function saveOnReturn(e) {
   var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
@@ -104,9 +108,9 @@ function saveOnReturn(e) {
     return cardId === card.id
   });
   var photoObj = new Photo(card.title, card.caption, reader.result);
-  console.log(card);
+    // console.log(card);
   var index = imagesArray.indexOf(card);
-  imagesArray.splice(index, 1)
+  imagesArray.splice(index, 1);
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
   if(e.keyCode === 13) {
@@ -121,3 +125,13 @@ function saveOnReturn(e) {
 
 
 
+// function liveSearchFilter() {
+//   removeAllCards();
+//   var searchCurrentText = searchInput.value;
+//   var filteredCards = imagesArray.filter(function (photo) {
+//     return photo.title.includes(searchCurrentText) || photo.caption.includes(searchCurrentText)
+//   });
+//   filteredCards.forEach(function(photo) {
+//     createCards(photoObj);
+//   });
+// }
