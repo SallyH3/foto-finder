@@ -51,22 +51,20 @@ function createCards() {
   </section>`
   cardSection.innerHTML = card + cardSection.innerHTML;
 });
-  // updateFaveIcon();
 }
 
-// function updateFaveIcon(photObj) {
-//   var photoObj = new Photo(card.title, card.caption, card.favorite, reader.result);
-//   if(photoObj.favorite) {
-//     console.log(photoObj)
-//     faveCounter++;
-//     favoritesButton.innerText = faveCounter;
-//     return "assets/favorite-active.svg";
-//   } else {
-//     faveCounter--;
-//     favoritesButton.innerText = faveCounter;
-//     return "assets/favorite.svg";
-//   }
-// };
+function persistFavorite() {
+  var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
+  if(event.target.className === ('.favorite-button')) {
+    return photoObj.favorite = true;
+  }
+  if(event.target.className === ('.favorite-true')) {
+    return photoObj.favorite = false;
+  }
+  createCards();
+  newPhotoObj.updatePhoto();
+}
+
 
 // first get button to persist in object, then look at classlist
 
@@ -99,13 +97,13 @@ function createElement(e) {
   }
 }
 
-function addPhoto(e) {
-  // console.log(e.target.result);
-  var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
-  cardSection.innerHTML += `<img src=${e.target.result} />`;
-  imagesArray.push(newPhoto)
-  newPhoto.saveToStorage(imagesArray)
-}
+// function addPhoto(e) {
+//   // console.log(e.target.result);
+//   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
+//   cardSection.innerHTML += `<img src=${e.target.result} />`;
+//   imagesArray.push(newPhoto)
+//   newPhoto.saveToStorage(imagesArray)
+// }
 
 
 function saveOnReturn(e) {
@@ -117,9 +115,7 @@ function saveOnReturn(e) {
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
   card.updatePhoto(cardTitle, cardCaption);
-  // console.log(card);
   var newPhotosArray = localPhotos.splice(index, 1, card);
-  // console.log(newPhotosArray);
   if(e.keyCode === 13) {
     localPhotos = newPhotosArray;
     card.saveToStorage(newPhotosArray);
