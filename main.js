@@ -13,14 +13,16 @@ var reader = new FileReader();
 addToAlbumButton.addEventListener('click', createElement);
 // searchInput.addEventListener('input', liveSearchFilter);
 window.addEventListener('load', createCards);
+window.addEventListener('input', enableDisableAddToAlbum);
 
 cardSection.addEventListener('keyup', saveOnReturn);
 cardSection.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete-button')) {
     deletePhoto(event.target);
-  } 
+  } else if (event.target.classList.contains('favorite-button')) {
+    persistFavorite();
+  }
 });
-
 
 function saveNewCard() {
 var titleInput = document.querySelector('#title').value;
@@ -31,8 +33,16 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
   createCards();
 }
 
+function enableDisableAddToAlbum() {
+  var titleInput = parseInt(document.querySelector('#title'));
+  var captionInput = parseInt(document.querySelector('#caption'));
+  if((titleInput.value != '' || captionInput.value != '') && input.files.length >= 1) {
+    addToAlbumButton.disabled = false;
+  }
+}
+
 function createCards() {
-  var array = JSON.parse(localStorage.getItem('photos'));
+  // var array = JSON.parse(localStorage.getItem('photos'));
   imagesArray.forEach(function(photoObj, i) {
   var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
   localPhotos.push(newPhotoObj);
@@ -51,24 +61,19 @@ function createCards() {
   </section>`
   cardSection.innerHTML = card + cardSection.innerHTML;
 });
-  // updateFaveIcon();
 }
 
-// function updateFaveIcon(photObj) {
-//   var photoObj = new Photo(card.title, card.caption, card.favorite, reader.result);
-//   if(photoObj.favorite) {
-//     console.log(photoObj)
-//     faveCounter++;
-//     favoritesButton.innerText = faveCounter;
-//     return "assets/favorite-active.svg";
-//   } else {
-//     faveCounter--;
-//     favoritesButton.innerText = faveCounter;
-//     return "assets/favorite.svg";
-//   }
-// };
-
-// first get button to persist in object, then look at classlist
+function persistFavorite() {
+  var photoId = parseInt(event.target.closest('.photo-card').dataset.id);
+  localPhotos.forEach(function(photo){
+    if(photo.id === photoId) {
+      photo.favorite = !photo.favorite;
+      photo.updatePhoto(photo.title, photo.caption, photo.favorite);
+      photo.saveToStorage(localPhotos);
+      event.target.classList.replace(`favorite-${!photo.favorite}`, `favorite-${photo.favorite}`);
+    }
+  })
+}
 
 function deletePhoto(target) {
   var cardId = target.parentElement.parentElement.dataset.id;
@@ -99,13 +104,13 @@ function createElement(e) {
   }
 }
 
-function addPhoto(e) {
-  // console.log(e.target.result);
-  var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
-  cardSection.innerHTML += `<img src=${e.target.result} />`;
-  imagesArray.push(newPhoto)
-  newPhoto.saveToStorage(imagesArray)
-}
+// function addPhoto(e) {
+//   // console.log(e.target.result);
+//   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
+//   cardSection.innerHTML += `<img src=${e.target.result} />`;
+//   imagesArray.push(newPhoto)
+//   newPhoto.saveToStorage(imagesArray)
+// }
 
 
 function saveOnReturn(e) {
@@ -116,10 +121,8 @@ function saveOnReturn(e) {
   var index = imagesArray.indexOf(card);
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-  card.updatePhoto(cardTitle, cardCaption);
-  // console.log(card);
+  card.updatePhoto(cardTitle, cardCaption, card.favorite);
   var newPhotosArray = localPhotos.splice(index, 1, card);
-  // console.log(newPhotosArray);
   if(e.keyCode === 13) {
     localPhotos = newPhotosArray;
     card.saveToStorage(newPhotosArray);
