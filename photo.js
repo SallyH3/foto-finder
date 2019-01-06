@@ -12,13 +12,11 @@ class Photo {
   }
   
  deleteFromStorage(imagesArray) {
-  console.log(imagesArray);
     localStorage.setItem('photos', JSON.stringify(imagesArray));
   }
 
- updatePhoto(title, caption, imagesArray) {
+ updatePhoto(title, caption) {
     this.title = title;
-    this.body = body;
-    this.saveToStorage(imagesArray);
+    this.caption = caption;
   }
 }
