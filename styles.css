@@ -229,11 +229,7 @@ p {
   left: 8px;
 }
 
-.favorite-button {
-  background-image: url('assets/favorite.svg');
-  position: absolute;
-  right: 10px;
-}
+
 
 .show-button {
   background-color: #5B4447;
@@ -298,7 +294,14 @@ p {
 }
 
 /* Buttons on photo cards */
+.favorite-button {
+  position: absolute;
+  right: 10px;
+}
 
+.favorite-false {
+  background-image: url('assets/favorite.svg');
+}
 
 .favorite-true {
   background-image: url('assets/favorite-active.svg');

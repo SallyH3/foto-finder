@@ -18,9 +18,10 @@ cardSection.addEventListener('keyup', saveOnReturn);
 cardSection.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete-button')) {
     deletePhoto(event.target);
-  } 
+  } else if (event.target.classList.contains('favorite-button')) {
+    persistFavorite();
+  }
 });
-
 
 function saveNewCard() {
 var titleInput = document.querySelector('#title').value;
@@ -31,8 +32,10 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
   createCards();
 }
 
+
+
 function createCards() {
-  var array = JSON.parse(localStorage.getItem('photos'));
+  // var array = JSON.parse(localStorage.getItem('photos'));
   imagesArray.forEach(function(photoObj, i) {
   var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
   localPhotos.push(newPhotoObj);
@@ -54,19 +57,16 @@ function createCards() {
 }
 
 function persistFavorite() {
-  var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
-  if(event.target.className === ('.favorite-button')) {
-    return photoObj.favorite = true;
-  }
-  if(event.target.className === ('.favorite-true')) {
-    return photoObj.favorite = false;
-  }
-  createCards();
-  newPhotoObj.updatePhoto();
+  var photoId = parseInt(event.target.closest('.photo-card').dataset.id);
+  localPhotos.forEach(function(photo){
+    if(photo.id === photoId) {
+      photo.favorite = !photo.favorite;
+      photo.updatePhoto(photo.title, photo.caption, photo.favorite);
+      photo.saveToStorage(localPhotos);
+      event.target.classList.replace(`favorite-${!photo.favorite}`, `favorite-${photo.favorite}`);
+    }
+  })
 }
-
-
-// first get button to persist in object, then look at classlist
 
 function deletePhoto(target) {
   var cardId = target.parentElement.parentElement.dataset.id;
@@ -114,7 +114,7 @@ function saveOnReturn(e) {
   var index = imagesArray.indexOf(card);
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-  card.updatePhoto(cardTitle, cardCaption);
+  card.updatePhoto(cardTitle, cardCaption, card.favorite);
   var newPhotosArray = localPhotos.splice(index, 1, card);
   if(e.keyCode === 13) {
     localPhotos = newPhotosArray;

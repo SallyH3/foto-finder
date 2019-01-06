@@ -15,8 +15,9 @@ class Photo {
     localStorage.setItem('photos', JSON.stringify(imagesArray));
   }
 
- updatePhoto(title, caption) {
+ updatePhoto(title, caption, favorite) {
     this.title = title;
     this.caption = caption;
+    this.favorite = favorite;
   }
 }
