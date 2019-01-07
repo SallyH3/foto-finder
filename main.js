@@ -1,20 +1,22 @@
+// GLOBAL VARIABLES
+
 var localPhotos = [];
+var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var addToAlbumButton = document.getElementById('add-to-album');
-var showButton = document.querySelector('.show-button');
-var searchInput = document.querySelector('.search-input');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
-var faveCounter = 0;
-var viewFavoritesButton = document.getElementById('js-view-favorites');
-var favoritesButton = document.querySelector('.js-favorite-counter');
-var imagesArray = JSON.parse(localStorage.getItem('photos')) || [];
 var reader = new FileReader();
+// var showButton = document.querySelector('.show-button');
+var searchInput = document.querySelector('.search-input');
+// var viewFavoritesButton = document.getElementById('js-view-favorites');
+// var favoritesCounterButton = document.querySelector('.js-favorite-counter');
 
+// EVENT LISTENERS
+
+searchInput.addEventListener('input', liveSearchFilter);
 addToAlbumButton.addEventListener('click', createElement);
-// searchInput.addEventListener('input', liveSearchFilter);
-window.addEventListener('load', createCards);
+window.addEventListener('load', loadPage);
 window.addEventListener('input', enableDisableAddToAlbum);
-
 cardSection.addEventListener('keyup', saveOnReturn);
 cardSection.addEventListener('click', function(event) {
   if (event.target.classList.contains('delete-button')) {
@@ -24,13 +26,22 @@ cardSection.addEventListener('click', function(event) {
   }
 });
 
+//FUNCTIONS
+
+function loadPage() {
+  createCards(imagesArray);
+  displayNoneOnCardSection();
+}
+
 function saveNewCard() {
 var titleInput = document.querySelector('#title').value;
 var captionInput = document.querySelector('#caption').value;
 var photoObj = new Photo(titleInput, captionInput, reader.result);
   localPhotos.push(photoObj);
   photoObj.saveToStorage(localPhotos);
-  createCards();
+  imagesArray = JSON.parse(localStorage.getItem('photos'));
+  createCards(imagesArray);
+  displayNoneOnCardSection();
 }
 
 function enableDisableAddToAlbum() {
@@ -41,10 +52,11 @@ function enableDisableAddToAlbum() {
   }
 }
 
-function createCards() {
-  // var array = JSON.parse(localStorage.getItem('photos'));
-  imagesArray.forEach(function(photoObj, i) {
+function createCards(arr) {
+  removeAllCards();
+  arr.forEach(function(photoObj, i) {
   var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
+  console.log(photoObj)
   localPhotos.push(newPhotoObj);
     var card =
   `<section class="photo-card" data-id=${photoObj.id}>
@@ -75,6 +87,15 @@ function persistFavorite() {
   })
 }
 
+function displayNoneOnCardSection() {
+  var cardPlaceholder = document.querySelector('.card-placeholder');
+  if(imagesArray.length >= 1) {
+    cardPlaceholder.classList.add('hide-placeholder');
+  } else {
+    cardPlaceholder.classList.remove('hide-placeholder');
+  }
+}
+
 function deletePhoto(target) {
   var cardId = target.parentElement.parentElement.dataset.id;
   var card = imagesArray.find(function(card) {
@@ -86,14 +107,9 @@ function deletePhoto(target) {
   photoObj.deleteFromStorage(imagesArray);
   var deleteCard = document.getElementById(cardId);
   target.closest('.photo-card').remove();
+  displayNoneOnCardSection();
 }
 
-function appendPhotos() {
-  console.log(imagesArray)
-  imagesArray.forEach(function (photo) {
-    cardSection.innerHTML += `<img src=${photo.file} />`
-  })
-}
 
 function createElement(e) {
   e.preventDefault();
@@ -103,15 +119,6 @@ function createElement(e) {
     reader.onload = saveNewCard;
   }
 }
-
-// function addPhoto(e) {
-//   // console.log(e.target.result);
-//   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
-//   cardSection.innerHTML += `<img src=${e.target.result} />`;
-//   imagesArray.push(newPhoto)
-//   newPhoto.saveToStorage(imagesArray)
-// }
-
 
 function saveOnReturn(e) {
   var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
@@ -129,18 +136,32 @@ function saveOnReturn(e) {
   }
 }
 
-
-// function removeAllCards() {
-//   cardSection.innerHTML = '';
+// function appendPhotos() {
+//   console.log(imagesArray)
+//   imagesArray.forEach(function (photo) {
+//     cardSection.innerHTML += `<img src=${photo.file} />`
+//   })
 // }
 
-// function liveSearchFilter() {
-//   removeAllCards();
-//   var searchCurrentText = searchInput.value;
-//   var filteredCards = imagesArray.filter(function (photo) {
-//     return photo.title.includes(searchCurrentText) || photo.caption.includes(searchCurrentText)
-//   });
-//   filteredCards.forEach(function(photo) {
-//     createCards(photo);
-//   });
+// function addPhoto(e) {
+//   // console.log(e.target.result);
+//   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
+//   cardSection.innerHTML += `<img src=${e.target.result} />`;
+//   imagesArray.push(newPhoto)
+//   newPhoto.saveToStorage(imagesArray)
 // }
+
+
+
+function removeAllCards() {
+  cardSection.innerHTML = '';
+}
+
+function liveSearchFilter() {
+  removeAllCards();
+  var searchCurrentText = searchInput.value;
+  var filteredCards = imagesArray.filter(function(photo) {
+    return photo.title.toLowerCase().includes(searchCurrentText.toLowerCase()) || photo.caption.toLowerCase().includes(searchCurrentText.toLowerCase());
+  });
+  createCards(filteredCards);
+}
