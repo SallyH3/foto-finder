@@ -150,10 +150,10 @@ function saveOnReturn(e) {
 // function liveSearchFilter() {
 //   removeAllCards();
 //   var searchCurrentText = searchInput.value;
-//   var filteredCards = imagesArray.filter(function (photo) {
+//   var filteredCards = localPhotos.filter(function(photo) {
 //     return photo.title.includes(searchCurrentText) || photo.caption.includes(searchCurrentText)
 //   });
-//   filteredCards.forEach(function(photo) {
-//     createCards(photo);
+//   filteredCards.forEach(function(card) {
+//     createCards(card);
 //   });
 // }
