@@ -6,13 +6,14 @@ var addToAlbumButton = document.getElementById('add-to-album');
 var cardSection = document.querySelector('.card-section');
 var input = document.querySelector('.choose-input');
 var reader = new FileReader();
-// var showButton = document.querySelector('.show-button');
+var showButton = document.querySelector('.show-button');
 var searchInput = document.querySelector('.search-input');
 // var viewFavoritesButton = document.getElementById('js-view-favorites');
 // var favoritesCounterButton = document.querySelector('.js-favorite-counter');
 
 // EVENT LISTENERS
 
+showButton.addEventListener('click', showMoreShowLess);
 searchInput.addEventListener('input', liveSearchFilter);
 addToAlbumButton.addEventListener('click', createElement);
 window.addEventListener('load', loadPage);
@@ -27,6 +28,16 @@ cardSection.addEventListener('click', function(event) {
 });
 
 //FUNCTIONS
+
+function showMoreShowLess() {
+  var slicedCards = localPhotos.slice(-10);
+  localPhotos.forEach(function(photo) {
+    createCards(slicedCards);
+  if(showButton.innertext === 'Show Less' && localPhotos.length > 10) {
+   return slicedCards;
+  }
+  });
+}
 
 function loadPage() {
   createCards(imagesArray);
@@ -56,7 +67,6 @@ function createCards(arr) {
   removeAllCards();
   arr.forEach(function(photoObj, i) {
   var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
-  console.log(photoObj)
   localPhotos.push(newPhotoObj);
     var card =
   `<section class="photo-card" data-id=${photoObj.id}>
@@ -136,6 +146,19 @@ function saveOnReturn(e) {
   }
 }
 
+function removeAllCards() {
+  cardSection.innerHTML = '';
+}
+
+function liveSearchFilter() {
+  removeAllCards();
+  var searchCurrentText = searchInput.value;
+  var filteredCards = imagesArray.filter(function(photo) {
+    return photo.title.toLowerCase().includes(searchCurrentText.toLowerCase()) || photo.caption.toLowerCase().includes(searchCurrentText.toLowerCase());
+  });
+  createCards(filteredCards);
+}
+
 // function appendPhotos() {
 //   console.log(imagesArray)
 //   imagesArray.forEach(function (photo) {
@@ -153,15 +176,3 @@ function saveOnReturn(e) {
 
 
 
-function removeAllCards() {
-  cardSection.innerHTML = '';
-}
-
-function liveSearchFilter() {
-  removeAllCards();
-  var searchCurrentText = searchInput.value;
-  var filteredCards = imagesArray.filter(function(photo) {
-    return photo.title.toLowerCase().includes(searchCurrentText.toLowerCase()) || photo.caption.toLowerCase().includes(searchCurrentText.toLowerCase());
-  });
-  createCards(filteredCards);
-}
