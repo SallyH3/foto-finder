@@ -12,7 +12,7 @@ var searchInput = document.querySelector('.search-input');
 
 // EVENT LISTENERS
 
-showButton.addEventListener('click', showMoreShowLess);
+showButton.addEventListener('click', showLess);
 searchInput.addEventListener('input', liveSearchFilter);
 addToAlbumButton.addEventListener('click', createElement);
 window.addEventListener('load', loadPage(imagesArray));
@@ -28,7 +28,7 @@ cardSection.addEventListener('click', function(event) {
 
 //FUNCTIONS
 
-function showMoreShowLess() {
+function showLess() {
   var slicedCards = imagesArray.slice(-10);
   imagesArray.forEach(function(photo) {
     createCards(slicedCards);
@@ -36,6 +36,15 @@ function showMoreShowLess() {
    return slicedCards;
   }
   });
+}
+
+function showMore() {
+  removeAllCards();
+  imagesArray.forEach(function(image){
+    createCards(image);
+  });
+    showButton.innerText = 'Show More';
+  }
 }
 
 function loadPage(array) {
@@ -117,14 +126,12 @@ function deletePhoto(target) {
   var index = imagesArray.indexOf(card);
   imagesArray.splice(index, 1);
   photoObj.deleteFromStorage(imagesArray);
-  var deleteCard = document.getElementById(cardId);
   target.closest('.photo-card').remove();
   displayNoneOnCardSection();
 }
 
 function createElement(e) {
   e.preventDefault();
-  // console.log(input.files[0])
   if (input.files[0]) {
     reader.readAsDataURL(input.files[0]); 
     reader.onload = saveNewCard;
@@ -138,7 +145,6 @@ function saveOnReturn(e) {
   });
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-  
   card.updatePhoto(cardTitle, cardCaption, card.favorite);
   if(e.keyCode === 13) {
     card.saveToStorage(imagesArray);
@@ -165,7 +171,6 @@ function liveSearchFilter() {
 // }
 
 // function addPhoto(e) {
-//   // console.log(e.target.result);
 //   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
 //   cardSection.innerHTML += `<img src=${e.target.result} />`;
 //   imagesArray.push(newPhoto)
