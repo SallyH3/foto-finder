@@ -122,7 +122,6 @@ function deletePhoto(target) {
   displayNoneOnCardSection();
 }
 
-
 function createElement(e) {
   e.preventDefault();
   // console.log(input.files[0])
@@ -134,17 +133,15 @@ function createElement(e) {
 
 function saveOnReturn(e) {
   var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
-  var card = imagesArray.find(function(card, index) {
+  var card = imagesArray.find(function(card) {
     return cardId === card.id
   });
-  var index = imagesArray.indexOf(card);
   var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
   var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
+  
   card.updatePhoto(cardTitle, cardCaption, card.favorite);
-  var newPhotosArray = imagesArray.splice(index, 1, card);
   if(e.keyCode === 13) {
-    imagesArray = newPhotosArray;
-    card.saveToStorage(newPhotosArray);
+    card.saveToStorage(imagesArray);
   }
 }
 
@@ -162,7 +159,6 @@ function liveSearchFilter() {
 }
 
 // function appendPhotos() {
-//   console.log(imagesArray)
 //   imagesArray.forEach(function (photo) {
 //     cardSection.innerHTML += `<img src=${photo.file} />`
 //   })
