@@ -4,10 +4,16 @@
 }
 
 body {
-  background-color: #C2B2B4;
   margin: 0;
   padding: 0;
 }
+
+body,
+.card-placeholder,
+.search-button {
+  background-color: #C2B2B4;
+}
+
 
 .dark-background {
   background-color: #3E2A35;
@@ -49,15 +55,14 @@ h1 {
 }
 
 .search-button {
-  background-color: #C2B2B4;
   border-radius: 0 5px 5px 0;
   border: none;
   width: 40px;
 }
 
 .fa-search {
-    color: #FFF;
-    font-size: 22px;
+  color: #FFF;
+  font-size: 22px;
   }
 
 form {
@@ -87,7 +92,8 @@ form {
 }
 
 .search-button:hover:enabled,
-.form-buttons:hover:enabled {
+.form-buttons:hover:enabled,
+.show-button:hover:enabled {
   background-color: #938284;
 }
 
@@ -137,7 +143,6 @@ input {
 }
 
 .card-placeholder {
-  background-color: #C2B2B4;
   font-size: 28px;
   height: 200px;
   margin: 0;
@@ -175,7 +180,6 @@ p {
 
 .title {
   height: 23px;
-  /*overflow: scroll;*/
   word-break: break-word;
 }
 
@@ -229,8 +233,6 @@ p {
   left: 8px;
 }
 
-
-
 .show-button {
   background-color: #5B4447;
   border: none;
@@ -239,10 +241,6 @@ p {
   margin: 20px auto;
   padding: 8px;
   text-align: center;
-}
-
-.show-button:hover:enabled {
-  background-color: #938284;
 }
 
 .show-button:disabled {
@@ -294,6 +292,7 @@ p {
 }
 
 /* Buttons on photo cards */
+
 .favorite-button {
   position: absolute;
   right: 10px;
