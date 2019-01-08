@@ -7,8 +7,6 @@ var input = document.querySelector('.choose-input');
 var reader = new FileReader();
 var showButton = document.querySelector('.show-button');
 var searchInput = document.querySelector('.search-input');
-// var viewFavoritesButton = document.getElementById('js-view-favorites');
-// var favoritesCounterButton = document.querySelector('.js-favorites-counter');
 
 // EVENT LISTENERS
 
@@ -36,15 +34,6 @@ function showLess() {
    return slicedCards;
   }
   });
-}
-
-function showMore() {
-  removeAllCards();
-  imagesArray.forEach(function(image){
-    createCards(image);
-  });
-    showButton.innerText = 'Show More';
-  }
 }
 
 function loadPage(array) {
@@ -163,19 +152,3 @@ function liveSearchFilter() {
   });
   createCards(filteredCards);
 }
-
-// function appendPhotos() {
-//   imagesArray.forEach(function (photo) {
-//     cardSection.innerHTML += `<img src=${photo.file} />`
-//   })
-// }
-
-// function addPhoto(e) {
-//   var newPhoto = new Photo('mock-title', 'mock-caption', e.target.result);
-//   cardSection.innerHTML += `<img src=${e.target.result} />`;
-//   imagesArray.push(newPhoto)
-//   newPhoto.saveToStorage(imagesArray)
-// }
-
-
-
