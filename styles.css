@@ -14,7 +14,6 @@ body,
   background-color: #C2B2B4;
 }
 
-
 .dark-background {
   background-color: #3E2A35;
   display: grid;
@@ -63,7 +62,7 @@ h1 {
 .fa-search {
   color: #FFF;
   font-size: 22px;
-  }
+}
 
 form {
   color: #FFF;
@@ -211,7 +210,7 @@ p {
   width: 276px;
 }
 
-/* Buttons in main area */
+/* Buttons in main and JS-innerHTML area */
 
 .icon-buttons {
   background-color: #5B4447;

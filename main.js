@@ -26,16 +26,6 @@ cardSection.addEventListener('click', function(event) {
 
 //FUNCTIONS
 
-function showLess() {
-  var slicedCards = imagesArray.slice(-10);
-  imagesArray.forEach(function(photo) {
-    createCards(slicedCards);
-  if(showButton.innertext === 'Show Less' && imagesArray.length > 10) {
-   return slicedCards;
-  }
-  });
-}
-
 function loadPage(array) {
   imagesArray = [];
   array.forEach(function(image){
@@ -151,4 +141,14 @@ function liveSearchFilter() {
     return photo.title.toLowerCase().includes(searchCurrentText.toLowerCase()) || photo.caption.toLowerCase().includes(searchCurrentText.toLowerCase());
   });
   createCards(filteredCards);
+}
+
+function showLess() {
+  var slicedCards = imagesArray.slice(-10);
+  imagesArray.forEach(function(photo) {
+    createCards(slicedCards);
+  if(showButton.innertext === 'Show Less' && imagesArray.length > 10) {
+   return slicedCards;
+  }
+  });
 }
