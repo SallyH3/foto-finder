@@ -291,13 +291,15 @@ p {
 
   header {
     display: block;
-    width: 100%;
   }
 
   .search-input,
   h1 {
-    text-align: center;
     width: 100%;
+  }
+
+  h1 {
+    margin-bottom: 20px;
   }
 }
 
@@ -305,8 +307,12 @@ p {
 
   .form-buttons {
     display: grid;
-    margin: 10px;
-    width: 50%;
+    margin: 10px 5px;
+    width: 95%;
+  }
+
+  .text-inputs {
+    margin-bottom: 20px;
   }
 }
 
