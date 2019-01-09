@@ -266,6 +266,7 @@ p {
 }
 
 @media screen and (max-width: 1010px) {
+  
   .card-section {
     display: flex;
     flex-wrap: wrap;
