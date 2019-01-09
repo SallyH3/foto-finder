@@ -242,6 +242,29 @@ p {
   background-color: lightgrey;
 }
 
+/* Buttons on photo cards */
+
+.favorite-button {
+  position: absolute;
+  right: 10px;
+}
+
+.favorite-false {
+  background-image: url('assets/favorite.svg');
+}
+
+.favorite-true {
+  background-image: url('assets/favorite-active.svg');
+}
+
+.delete-button:hover {
+  background-image: url('assets/delete-active.svg');
+}
+
+.favorite-button:hover {
+  background-image: url('assets/favorite-active.svg');
+}
+
 @media screen and (max-width: 1010px) {
   .card-section {
     display: flex;
@@ -286,26 +309,5 @@ p {
   }
 }
 
-/* Buttons on photo cards */
 
-.favorite-button {
-  position: absolute;
-  right: 10px;
-}
-
-.favorite-false {
-  background-image: url('assets/favorite.svg');
-}
-
-.favorite-true {
-  background-image: url('assets/favorite-active.svg');
-}
-
-.delete-button:hover {
-  background-image: url('assets/delete-active.svg');
-}
-
-.favorite-button:hover {
-  background-image: url('assets/favorite-active.svg');
-}
 
