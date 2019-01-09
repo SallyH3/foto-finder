@@ -1,5 +1,3 @@
-## Project Title
----
 # Foto Finder
 ---
 As a solo project, I had to build an app where a user can upload photos with titles and captions. The user adds the photos to a 
@@ -43,6 +41,7 @@ My Project(desktop):
 
 My Project(mobile):
 ---
-![fotofinder-mobile](https://user-images.githubusercontent.com/40863560/50869842-f474b700-1372-11e9-9c86-0419dfe78d0a.png)
+![foto-finder-mobile](https://user-images.githubusercontent.com/40863560/50870189-32260f80-1374-11e9-806d-e4e62e3ac9c0.png)
+
 
 
