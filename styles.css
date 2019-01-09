@@ -265,7 +265,7 @@ p {
   background-image: url('assets/favorite-active.svg');
 }
 
-@media screen and (max-width: 1027px) {
+@media screen and (max-width: 1257px) {
   
   .card-section {
     display: flex;
