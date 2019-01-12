@@ -117,17 +117,21 @@ function createElement(e) {
   }
 }
 
-function saveOnReturn(e) {
-  var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
+function saveOnReturn(event) {
+  $(document).ready(() => {
+
+  var cardId = parseInt(event.target.closest('.photo-card').getAttribute('data-id'));
   var card = imagesArray.find(function(card) {
     return cardId === card.id
   });
-  var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
-  var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
+  //need to fix jquery stuff below...not working properly!!
+  const cardTitle = $(event.currentTarget).closest('.photo-card').children().text();
+  const cardCaption = $(event.currentTaregt).closest('.photo-card').siblings().text();
   card.updatePhoto(cardTitle, cardCaption, card.favorite);
-  if(e.keyCode === 13) {
+  if(event.keyCode === 13) {
     card.saveToStorage(imagesArray);
   }
+  });
 }
 
 function removeAllCards() {
