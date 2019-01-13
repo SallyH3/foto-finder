@@ -119,14 +119,12 @@ function createElement(e) {
 
 function saveOnReturn(event) {
   $(document).ready(() => {
-
-  var cardId = parseInt(event.target.closest('.photo-card').getAttribute('data-id'));
-  var card = imagesArray.find(function(card) {
+  const cardId = parseInt(event.target.closest('.photo-card').getAttribute('data-id'));
+  const card = imagesArray.find(function(card) {
     return cardId === card.id
   });
-  //need to fix jquery stuff below...not working properly!!
-  const cardTitle = $(event.currentTarget).closest('.photo-card').children().text();
-  const cardCaption = $(event.currentTaregt).closest('.photo-card').siblings().text();
+  const cardTitle = $('.photo-card').find('.title').first().text();
+  const cardCaption = $('.photo-card').find('.caption').first().text();
   card.updatePhoto(cardTitle, cardCaption, card.favorite);
   if(event.keyCode === 13) {
     card.saveToStorage(imagesArray);
