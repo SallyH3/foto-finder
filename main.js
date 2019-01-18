@@ -28,8 +28,8 @@ cardSection.addEventListener('click', function(event) {
 
 function loadPage(array) {
   imagesArray = [];
-  array.forEach(function(image){
-    var photoObj = new Photo(image.title, image.caption, image.file, image.favorite, image.id);
+  array.forEach((image) => {
+    const photoObj = new Photo(image.title, image.caption, image.file, image.favorite, image.id);
     imagesArray.push(photoObj)
   });
   createCards(imagesArray);
@@ -37,9 +37,9 @@ function loadPage(array) {
 }
 
 function saveNewCard() {
-var titleInput = document.querySelector('#title').value;
-var captionInput = document.querySelector('#caption').value;
-var photoObj = new Photo(titleInput, captionInput, reader.result);
+const titleInput = document.querySelector('#title').value;
+const captionInput = document.querySelector('#caption').value;
+const photoObj = new Photo(titleInput, captionInput, reader.result);
   imagesArray.push(photoObj);
   photoObj.saveToStorage(imagesArray);
   createCards(imagesArray);
@@ -47,8 +47,8 @@ var photoObj = new Photo(titleInput, captionInput, reader.result);
 }
 
 function enableDisableAddToAlbum() {
-  var titleInput = parseInt(document.querySelector('#title'));
-  var captionInput = parseInt(document.querySelector('#caption'));
+  const titleInput = parseInt(document.querySelector('#title'));
+  const captionInput = parseInt(document.querySelector('#caption'));
   if((titleInput.value != '' || captionInput.value != '') && input.files.length >= 1) {
     addToAlbumButton.disabled = false;
   }
@@ -56,9 +56,9 @@ function enableDisableAddToAlbum() {
 
 function createCards(arr) {
   removeAllCards();
-  arr.forEach(function(photoObj, i) {
-  var newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
-    var card =
+  arr.forEach((photoObj, i) => {
+  const newPhotoObj = new Photo (photoObj.title, photoObj.caption, photoObj.file, photoObj.favorite, photoObj.id);
+    const card =
   `<section class="photo-card" data-id=${photoObj.id}>
   <p contenteditable = true class = "title">${photoObj.title}</p>
   <label class="photo-label" for="change-photo${i}">
@@ -76,58 +76,70 @@ function createCards(arr) {
 }
 
 function persistFavorite() {
-  var photoId = parseInt(event.target.closest('.photo-card').dataset.id);
-  imagesArray.forEach(function(photo) {
-    if(photo.id === photoId) {
+  const photoId = parseInt(event.target.closest('.photo-card').dataset.id);
+  imagesArray.forEach((photo) => {
+    switch(true) {
+      case photo.id === photoId :
       photo.favorite = !photo.favorite;
       photo.updatePhoto(photo.title, photo.caption, photo.favorite);
       photo.saveToStorage(imagesArray);
       event.target.classList.replace(`favorite-${!photo.favorite}`, `favorite-${photo.favorite}`);
+      break;
     }
-  })
+  });
 }
 
 function displayNoneOnCardSection() {
-  var cardPlaceholder = document.querySelector('.card-placeholder');
-  if(imagesArray.length >= 1) {
+  const cardPlaceholder = document.querySelector('.card-placeholder');
+  switch (true) {
+    case imagesArray.length >= 1 :
     cardPlaceholder.classList.add('hide-placeholder');
-  } else {
+    break;
+    default :
     cardPlaceholder.classList.remove('hide-placeholder');
   }
 }
 
 function deletePhoto(target) {
-  var cardId = target.parentElement.parentElement.dataset.id;
-  var card = imagesArray.find(function(card) {
+  $(document).ready(() => {
+  const cardId = target.parentElement.parentElement.dataset.id;
+  const card = imagesArray.find((card) => {
     return parseInt(cardId) === card.id
   });
-  var photoObj = new Photo(card.title, card.caption, reader.result);
-  var index = imagesArray.indexOf(card);
+  const photoObj = new Photo(card.title, card.caption, reader.result);
+  const index = imagesArray.indexOf(card);
   imagesArray.splice(index, 1);
   photoObj.deleteFromStorage(imagesArray);
-  target.closest('.photo-card').remove();
+  $(target).closest('.photo-card').remove();
   displayNoneOnCardSection();
+  });
 }
 
 function createElement(e) {
   e.preventDefault();
-  if (input.files[0]) {
-    reader.readAsDataURL(input.files[0]); 
+  switch (input.files[0]) {
+    case input.files[0] :
+    reader.readAsDataURL(input.files[0]);
     reader.onload = saveNewCard;
+    break;
   }
 }
 
-function saveOnReturn(e) {
-  var cardId = parseInt(e.target.closest('.photo-card').getAttribute('data-id'));
-  var card = imagesArray.find(function(card) {
+function saveOnReturn(event) {
+  $(document).ready(() => {
+    const cardId = parseInt(event.target.closest('.photo-card').getAttribute('data-id'));
+    const card = imagesArray.find((card) => {
     return cardId === card.id
   });
-  var cardTitle = e.target.closest('.photo-card').firstChild.nextElementSibling.innerText;
-  var cardCaption = e.target.closest('.photo-card').firstChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-  card.updatePhoto(cardTitle, cardCaption, card.favorite);
-  if(e.keyCode === 13) {
+    const cardTitle = $('.photo-card').find('.title').first().text();
+    const cardCaption = $('.photo-card').find('.caption').first().text();
+    card.updatePhoto(cardTitle, cardCaption, card.favorite);
+  switch (event.keycode === 13) {
+    case event.keyCode === 13 :
     card.saveToStorage(imagesArray);
+    break;
   }
+  });
 }
 
 function removeAllCards() {
@@ -136,16 +148,16 @@ function removeAllCards() {
 
 function liveSearchFilter() {
   removeAllCards();
-  var searchCurrentText = searchInput.value;
-  var filteredCards = imagesArray.filter(function(photo) {
+  const searchCurrentText = searchInput.value;
+  const filteredCards = imagesArray.filter((photo) => {
     return photo.title.toLowerCase().includes(searchCurrentText.toLowerCase()) || photo.caption.toLowerCase().includes(searchCurrentText.toLowerCase());
   });
   createCards(filteredCards);
 }
 
 function showLess() {
-  var slicedCards = imagesArray.slice(-10);
-  imagesArray.forEach(function(photo) {
+  const slicedCards = imagesArray.slice(-10);
+  imagesArray.forEach((photo) => {
     createCards(slicedCards);
   if(showButton.innertext === 'Show Less' && imagesArray.length > 10) {
    return slicedCards;
