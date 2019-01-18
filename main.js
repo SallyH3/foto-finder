@@ -89,9 +89,11 @@ function persistFavorite() {
 
 function displayNoneOnCardSection() {
   var cardPlaceholder = document.querySelector('.card-placeholder');
-  if(imagesArray.length >= 1) {
+  switch (true) {
+    case imagesArray.length >= 1 :
     cardPlaceholder.classList.add('hide-placeholder');
-  } else {
+    break;
+    default :
     cardPlaceholder.classList.remove('hide-placeholder');
   }
 }
@@ -111,9 +113,11 @@ function deletePhoto(target) {
 
 function createElement(e) {
   e.preventDefault();
-  if (input.files[0]) {
-    reader.readAsDataURL(input.files[0]); 
+  switch (input.files[0]) {
+    case input.files[0] :
+    reader.readAsDataURL(input.files[0]);
     reader.onload = saveNewCard;
+    break;
   }
 }
 
@@ -126,8 +130,10 @@ function saveOnReturn(event) {
   const cardTitle = $('.photo-card').find('.title').first().text();
   const cardCaption = $('.photo-card').find('.caption').first().text();
   card.updatePhoto(cardTitle, cardCaption, card.favorite);
-  if(event.keyCode === 13) {
+  switch (event.keycode === 13) {
+  case event.keyCode === 13 :
     card.saveToStorage(imagesArray);
+    break;
   }
   });
 }
