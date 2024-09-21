@@ -26,7 +26,7 @@ I was motivated to learn more about JavaScript local storage, classes, and array
 
 ## Author
 ---
-Sally H
+Sally Skarr
 
 Turing Spec(desktop):
 ---
